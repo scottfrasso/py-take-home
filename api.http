@@ -1,8 +1,13 @@
+### This is a PyCharm http request file
+
 ### Create Archive
-POST http://127.0.0.1:5000/api/archive/create
+POST http://localhost:5001/api/archive/create
 Accept: application/json
 
-{ "urls": ["1", "2"] }
+{ "urls": ["http://www.google.com", "http://www.yahoo.com", "https://www.godaddy.com"] }
 
 ### Get Status
-GET http://127.0.0.1:5000/api/archive/status/973be497-f935-4066-a512-957f5e761113
+GET http://localhost:5001/api/archive/status/183caed6-c6ac-4420-9e0e-bf5b0be819ce
+
+### Get a file
+GET http://localhost:5001/api/archive/get/183caed6-c6ac-4420-9e0e-bf5b0be819ce

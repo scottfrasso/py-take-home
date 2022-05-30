@@ -1,9 +1,16 @@
 import uuid
 import json
 import os
+import sys
 from pathlib import Path
 from flask import Flask, request, abort
 from flask import send_from_directory
+from os import path
+
+ARCHIVES_FOLDER = os.getenv('ARCHIVES_FOLDER', '/archives')
+if not path.exists(ARCHIVES_FOLDER):
+    print('ARCHIVES_FOLDER Folder ' + ARCHIVES_FOLDER + ' does not exist')
+    sys.exit(-1)
 
 app = Flask(__name__)
 
@@ -59,15 +66,13 @@ def index(id):
     if data['status'] != DONE:
         abort(400)
 
-    root_dir = os.path.dirname(os.getcwd())
-    tmp_dir = os.path.join(root_dir, 'py-take-home', '../tmp')
-
     filename = id + '.zip'
-    filepath = Path(os.path.join(tmp_dir, filename))
+    filepath = Path(os.path.join(ARCHIVES_FOLDER, filename))
     if not filepath.is_file():
+        print('File does not exist at ' + str(filepath))
         abort(404)
 
-    return send_from_directory(tmp_dir, filename, as_attachment=True)
+    return send_from_directory(ARCHIVES_FOLDER, filename, as_attachment=True)
 
 
 @app.route('/api/archive/status/<id>/<status>', methods=['PUT'])
@@ -80,6 +85,8 @@ def update(id, status):
         abort(400)
 
     data['status'] = status
+
+    return json.dumps(data)
 
 
 if __name__ == '__main__':
