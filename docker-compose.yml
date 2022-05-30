@@ -1,0 +1,17 @@
+version: "3.8"
+services:
+  api:
+    build: ./api
+    ports:
+      - "5001:5001"
+    volumes:
+      - archives-data:/archives
+  downloader:
+    build: ./downloader
+    depends_on:
+      - "api"
+    volumes:
+      - archives-data:/archives
+volumes:
+  archives-data:
+    driver: local

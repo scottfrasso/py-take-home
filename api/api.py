@@ -60,7 +60,7 @@ def index(id):
         abort(400)
 
     root_dir = os.path.dirname(os.getcwd())
-    tmp_dir = os.path.join(root_dir, 'py-take-home', 'tmp')
+    tmp_dir = os.path.join(root_dir, 'py-take-home', '../tmp')
 
     filename = id + '.zip'
     filepath = Path(os.path.join(tmp_dir, filename))
@@ -83,4 +83,7 @@ def update(id, status):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    PORT = int(os.getenv('PORT', '5001'))
+    HOST = os.getenv('HOST', 'api')
+
+    app.run(debug=True, host=HOST, port=PORT)

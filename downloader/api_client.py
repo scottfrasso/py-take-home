@@ -1,10 +1,12 @@
 import requests
+import os
 
-BASE_URL = 'http://127.0.0.1:5000/api'
+BASE_URL = os.getenv('BASE_URL', 'http://api:5001/api')
 
 
 def get_unfinished_archives():
-    response = requests.get(BASE_URL + '/archive/list/')
+    print('Trying to get to ' + BASE_URL + '/archive/list')
+    response = requests.get(BASE_URL + '/archive/list')
     data = response.json()
 
     return data
